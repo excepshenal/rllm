@@ -9,10 +9,12 @@ export VLLM_ENGINE_ITERATION_TIMEOUT_S=100000000000
 # Find the directory where rllm package is located
 RLLM_DIR=$(python3 -c "import rllm; import os; print(os.path.dirname(os.path.dirname(rllm.__file__)))")
 
-MODEL_PATH=deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+MODEL_PATH=/models/ds-r1-distill-qwen-1.5b
 
 python3 -m examples.deepscaler.train_deepscaler \
     algorithm.adv_estimator=grpo \
+    data.train_files=rllm/data/datasets/deepscaler_math/train.parquet \
+    data.val_files=rllm/data/datasets/aime2024/test.parquet \
     data.train_batch_size=128 \
     data.val_batch_size=30 \
     data.max_prompt_length=2048 \
@@ -51,14 +53,14 @@ python3 -m examples.deepscaler.train_deepscaler \
     rllm.mask_truncated_samples=False \
     trainer.critic_warmup=0 \
     trainer.logger=['console','wandb'] \
-    trainer.project_name='rllm-agent' \
-    trainer.experiment_name='deepscaler-1.5b-8k' \
+    trainer.project_name='dapo' \
+    trainer.experiment_name='ds-r1-distill-qwen-1.5b-exp-9' \
     trainer.val_before_train=True \
     trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
-    trainer.save_freq=20 \
-    trainer.test_freq=20 \
+    trainer.save_freq=200 \
+    trainer.test_freq=5 \
     trainer.default_hdfs_dir=null \
     rllm.agent.max_steps=1 \
     rllm.stepwise_advantage.enable=False \
-    trainer.total_epochs=100
+    trainer.total_epochs=2

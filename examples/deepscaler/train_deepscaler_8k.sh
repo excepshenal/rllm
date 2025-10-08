@@ -10,8 +10,9 @@ export VLLM_ENGINE_ITERATION_TIMEOUT_S=100000000000
 RLLM_DIR=$(python3 -c "import rllm; import os; print(os.path.dirname(os.path.dirname(rllm.__file__)))")
 
 MODEL_PATH=/models/ds-r1-distill-qwen-1.5b
+EXP_NAME=ds-r1-distill-qwen-1.5b-exp-9
 
-python3 -m examples.deepscaler.train_deepscaler \
+nohup python3 -m examples.deepscaler.train_deepscaler \
     algorithm.adv_estimator=grpo \
     data.train_files=rllm/data/datasets/deepscaler_math/train.parquet \
     data.val_files=rllm/data/datasets/aime2024/test.parquet \
@@ -54,7 +55,7 @@ python3 -m examples.deepscaler.train_deepscaler \
     trainer.critic_warmup=0 \
     trainer.logger=['console','wandb'] \
     trainer.project_name='dapo' \
-    trainer.experiment_name='ds-r1-distill-qwen-1.5b-exp-9' \
+    trainer.experiment_name=$EXP_NAME \
     trainer.val_before_train=True \
     trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
@@ -63,4 +64,5 @@ python3 -m examples.deepscaler.train_deepscaler \
     trainer.default_hdfs_dir=null \
     rllm.agent.max_steps=1 \
     rllm.stepwise_advantage.enable=False \
-    trainer.total_epochs=2
+    trainer.total_epochs=2 \
+    > $EXP_NAME.log 2>&1 &

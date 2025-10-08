@@ -4,8 +4,12 @@ FROM verlai/verl:app-verl0.4-sglang0.4.6.post5-vllm0.8.5-mcore0.12.2-te2.2
 
 WORKDIR /workspace
 
+RUN sed -i -E 's|https://mirrors.tuna.tsinghua.edu.cn/ubuntu/|http://archive.ubuntu.com/ubuntu/|g' /etc/apt/sources.list
+
 # 1) Clone rllm repository with submodules
-RUN git clone --recurse-submodules https://github.com/rllm-org/rllm.git rllm
+RUN pip uninstall verl -y || true
+
+RUN git clone --recurse-submodules https://github.com/excepshenal/rllm.git rllm
 
 # 2) Install verl and rllm (editable)
 RUN cd rllm && \
@@ -16,6 +20,8 @@ RUN cd rllm && \
 RUN pip install playwright && \
     playwright install chromium && \
     playwright install-deps
+
+RUN pip uninstall -y flash-attn && pip install flash-attn --no-build-isolation
 
 CMD ["/bin/bash"]
 

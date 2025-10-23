@@ -7,8 +7,6 @@ WORKDIR /workspace
 RUN sed -i -E 's|https://mirrors.tuna.tsinghua.edu.cn/ubuntu/|http://archive.ubuntu.com/ubuntu/|g' /etc/apt/sources.list
 
 # 1) Clone rllm repository with submodules
-RUN pip uninstall verl -y || true
-
 RUN git clone --recurse-submodules https://github.com/excepshenal/rllm.git rllm
 
 # 2) Install verl and rllm (editable)
@@ -20,8 +18,6 @@ RUN cd rllm && \
 RUN pip install playwright && \
     playwright install chromium && \
     playwright install-deps
-
-RUN pip uninstall -y flash-attn && pip install flash-attn --no-build-isolation
 
 CMD ["/bin/bash"]
 

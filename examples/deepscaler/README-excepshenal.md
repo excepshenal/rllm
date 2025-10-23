@@ -33,6 +33,7 @@ docker exec -it rllm-container bash
 ```bash
 cd rllm
 python3 verl/scripts/download_model.py
+python3 verl/scripts/download_model.py --hf_repo sfairXC/FsfairX-LLaMA3-RM-v0.1 --local_dir /models/FsfairX-LLaMA3-RM-v0.1
 python3 examples/deepscaler/prepare_math_data.py
 ```
 

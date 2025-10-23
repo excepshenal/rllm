@@ -10,6 +10,7 @@ export VLLM_ENGINE_ITERATION_TIMEOUT_S=100000000000
 RLLM_DIR=$(python3 -c "import rllm; import os; print(os.path.dirname(os.path.dirname(rllm.__file__)))")
 
 MODEL_PATH=/models/ds-r1-distill-qwen-1.5b
+REWARD_MODEL_PATH=/models/FsfairX-LLaMA3-RM-v0.1
 EXP_NAME=ds-r1-distill-qwen-1.5b-exp-9
 
 nohup python3 -m examples.deepscaler.train_deepscaler \
@@ -50,6 +51,7 @@ nohup python3 -m examples.deepscaler.train_deepscaler \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1 \
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=1 \
     actor_rollout_ref.actor.entropy_coeff=0 \
+    reward_model.model.path=$REWARD_MODEL_PATH \
     algorithm.kl_ctrl.kl_coef=0.001 \
     rllm.mask_truncated_samples=False \
     trainer.critic_warmup=0 \

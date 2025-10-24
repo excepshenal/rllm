@@ -7,7 +7,7 @@ PPO_RAY_RUNTIME_ENV = {
         "VLLM_LOGGING_LEVEL": "WARN",
         "VLLM_ALLOW_RUNTIME_LORA_UPDATING": "true",
         "CUDA_DEVICE_MAX_CONNECTIONS": "1",
-        "VLLM_USE_V1": "1",
+        "VLLM_USE_V1": "true",
     },
     "worker_process_setup_hook": "rllm.patches.verl_patch_hook.setup",
 }

@@ -5,7 +5,6 @@ PPO_RAY_RUNTIME_ENV = {
         "TOKENIZERS_PARALLELISM": "true",
         "NCCL_DEBUG": "WARN",
         "VLLM_LOGGING_LEVEL": "WARN",
-        "VLLM_ALLOW_RUNTIME_LORA_UPDATING": "true",
         "CUDA_DEVICE_MAX_CONNECTIONS": "1",
         "VLLM_USE_V1": "1",
     },

@@ -1,11 +1,14 @@
 from typing import Any
 
+import os
+import logging
 import ray
 
 from rllm.data import Dataset
 from rllm.trainer.verl.ray_runtime_env import get_ppo_ray_runtime_env
 from rllm.trainer.verl.train_agent_ppo import TaskRunner
 
+logger = logging.getLogger(__name__)
 
 class AgentTrainer:
     """
@@ -68,12 +71,17 @@ class AgentTrainer:
     def train(self):
         # Check if Ray is not initialized
         if not ray.is_initialized():
+            logger.info("Ray is not initialized, initializing Ray...")
             # read off all the `ray_init` settings from the config
             if self.config is not None and hasattr(self.config, "ray_init"):
+                logger.info("Found ray_init settings in config, using them to initialize Ray...")
                 ray_init_settings = {k: v for k, v in self.config.ray_init.items() if v is not None}
             else:
+                logger.info("No ray_init settings found in config, using default settings to initialize Ray...")
                 ray_init_settings = {}
             ray.init(runtime_env=get_ppo_ray_runtime_env(), **ray_init_settings)
+
+        logger.info(f"VLLM_USE_V1 is {os.environ.get('VLLM_USE_V1')}")
 
         runner = TaskRunner.remote()
 

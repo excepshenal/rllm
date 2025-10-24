@@ -60,6 +60,8 @@ class TaskRunner:
     """
 
     def run(self, config, workflow_class=None, workflow_args=None, agent_class=None, env_class=None, agent_args=None, env_args=None):
+        print(f"VLLM_USE_V1: {os.environ.get('VLLM_USE_V1')}")
+
         """Execute the main PPO training workflow.
 
         This method sets up the distributed training environment, initializes

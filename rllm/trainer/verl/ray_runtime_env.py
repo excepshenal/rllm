@@ -9,7 +9,6 @@ PPO_RAY_RUNTIME_ENV = {
         "CUDA_DEVICE_MAX_CONNECTIONS": "1",
         "VLLM_USE_V1": "1",
     },
-    "worker_process_setup_hook": "rllm.patches.verl_patch_hook.setup",
 }
 
 FORWARD_PREFIXES = [
@@ -68,5 +67,4 @@ def get_ppo_ray_runtime_env():
     env.update(_get_forwarded_env_vars())
     return {
         "env_vars": env,
-        "worker_process_setup_hook": PPO_RAY_RUNTIME_ENV["worker_process_setup_hook"],
     }
